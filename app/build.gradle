@@ -4,7 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "24.0.1"
     defaultConfig {
-        applicationId "com.cxk.redpacket"
+        applicationId "com.smarttiger.myservice"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1

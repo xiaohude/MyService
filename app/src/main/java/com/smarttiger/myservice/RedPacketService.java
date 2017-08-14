@@ -27,7 +27,8 @@ public class RedPacketService extends AccessibilityService {
      */
     private String LAUCHER = "com.tencent.mm.ui.LauncherUI";
     private String LUCKEY_MONEY_DETAIL = "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyDetailUI";
-    private String LUCKEY_MONEY_RECEIVER = "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyReceiveUI";
+//    private String LUCKEY_MONEY_RECEIVER = "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyReceiveUI";
+    private String LUCKEY_MONEY_RECEIVER = "com.tencent.mm.plugin.luckymoney.ui.";
 
     /**
      * 用于判断是否点击过红包了
@@ -85,8 +86,11 @@ public class RedPacketService extends AccessibilityService {
                     findRedPacket(rootNode);
                 }
 
+                System.out.println("className==================="+className);
+
                 //判断是否是显示‘开’的那个红包界面
-                if (LUCKEY_MONEY_RECEIVER.equals(className)) {
+//                if (LUCKEY_MONEY_RECEIVER.equals(className)) {
+                if (className.contains(LUCKEY_MONEY_RECEIVER)) {
                     AccessibilityNodeInfo rootNode = getRootInActiveWindow();
                     //开始抢红包
                     openRedPacket(rootNode);
@@ -103,7 +107,6 @@ public class RedPacketService extends AccessibilityService {
                 }
                 break;
         }
-
 
     }
 
