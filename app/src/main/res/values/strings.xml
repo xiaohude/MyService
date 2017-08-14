@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MyService</string>
+    <string name="service_description">开启服务才能抢包成功</string>
+</resources>
