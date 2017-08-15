@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kyleduo.switchbutton.SwitchButton;
+import com.smarttiger.message.MessageManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTimeText;
     private View mIMEILayout;
     private TextView mIMEIText;
+    private View mMesssagesLayout;
+    private TextView mMessagesText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mSwitchButton.setChecked(AccessibilityUtils.isAccessibilityEnabled(mContext));
+
+        mMessagesText.setText(MessageManager.getInstance().getMessages());
     }
 
     private void initView(){
@@ -59,6 +64,23 @@ public class MainActivity extends AppCompatActivity {
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 cm.setText(mIMEIText.getText());
                 Toast.makeText(mContext, "已将IMEI号复制进剪贴板", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mMesssagesLayout = findViewById(R.id.messages_layout);
+        mMessagesText = (TextView) findViewById(R.id.messages_text);
+        mMesssagesLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                MessageManager.getInstance().cleanMessages();
+                Toast.makeText(mContext, "已清空最新消息缓存", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        mMesssagesLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMessagesText.setText(MessageManager.getInstance().getMessages());
             }
         });
     }

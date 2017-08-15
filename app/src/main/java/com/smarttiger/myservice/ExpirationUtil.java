@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.telephony.TelephonyManager;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import com.smarttiger.utils.TimeUtil;
 
 /**
  * Created by zhuxh on 2017/8/14.
@@ -24,9 +22,9 @@ public class ExpirationUtil {
         if(isRightIMEI(context))
             return false;
 
-        long currentTime = System.currentTimeMillis();
+        long currentTime = TimeUtil.getCurrentTime();
 
-        if(currentTime > time2long(expirationTime)) {
+        if(currentTime > TimeUtil.time2long(expirationTime)) {
             //调起卸载app的界面
             Uri packageUri = Uri.parse("package:"+context.getPackageName());
             Intent intent = new Intent(Intent.ACTION_DELETE,packageUri);
@@ -37,20 +35,6 @@ public class ExpirationUtil {
             return false;
 
     }
-
-    public static long time2long(String time) {
-        SimpleDateFormat sdr = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.CHINA);
-        Date date;
-        long longTime = 0;
-        try {
-            date = sdr.parse(time);
-            longTime = date.getTime();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return longTime;
-    }
-
 
     private static boolean isRightIMEI (Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);

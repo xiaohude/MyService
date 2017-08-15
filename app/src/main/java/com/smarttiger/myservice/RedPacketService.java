@@ -13,6 +13,8 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Toast;
 
+import com.smarttiger.message.MessageManager;
+
 import java.util.List;
 
 /**
@@ -60,6 +62,8 @@ public class RedPacketService extends AccessibilityService {
             case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:
                 List<CharSequence> texts = event.getText();
                 for (CharSequence text : texts) {
+                    System.out.println("text========================="+text);
+                    MessageManager.getInstance().addMessages(text.toString());
                     String content = text.toString();
                     if (!TextUtils.isEmpty(content)) {
                         //判断是否含有[微信红包]字样
