@@ -50,4 +50,20 @@ public class MessageManager {
     public void cleanMessages () {
         mMessages.clear();
     }
+
+    private boolean hasCatchNotificationChanged = false;
+    public void setCatchNotificationChanged(boolean hasCatch) {
+        hasCatchNotificationChanged = hasCatch;
+    }
+    public boolean hasCatchNotificationChanged() {
+        return hasCatchNotificationChanged;
+    }
+
+    private boolean isCatchedMessage;
+    public void setIsCatchedMessage(boolean isCatched) {
+        isCatchedMessage = isCatched;
+    }
+    public boolean isCatchedMessage() {
+        return isCatchedMessage;
+    }
 }

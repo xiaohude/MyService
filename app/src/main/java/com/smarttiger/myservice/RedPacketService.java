@@ -29,6 +29,7 @@ public class RedPacketService extends AccessibilityService {
      */
     private String LAUCHER = "com.tencent.mm.ui.LauncherUI";
     private String LUCKEY_MONEY_DETAIL = "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyDetailUI";
+    private String LUCKEY_MONEY_SEND = "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyPrepareUI";
 //    private String LUCKEY_MONEY_RECEIVER = "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyReceiveUI";
     private String LUCKEY_MONEY_RECEIVER = "com.tencent.mm.plugin.luckymoney.ui.";
 
@@ -60,9 +61,17 @@ public class RedPacketService extends AccessibilityService {
         switch (eventType) {
             //通知栏来信息，判断是否含有微信红包字样，是的话跳转
             case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:
+                // 因为NotificationListenerService先于onAccessibilityEvent通知，因此添加两个boolean逻辑来处理双保险不重复调用
+                // 优先使用AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED的逻辑，备用逻辑是NotificationListenerService
+                MessageManager.getInstance().setCatchNotificationChanged(true);
+                if(MessageManager.getInstance().isCatchedMessage()) {
+                    MessageManager.getInstance().setIsCatchedMessage(false);
+                    break;
+                }
+
                 List<CharSequence> texts = event.getText();
                 for (CharSequence text : texts) {
-                    System.out.println("text========================="+text);
+                    System.out.println("AccessibilityEvent-----------------text===="+text);
                     MessageManager.getInstance().addMessages(text.toString());
                     String content = text.toString();
                     if (!TextUtils.isEmpty(content)) {
@@ -90,11 +99,11 @@ public class RedPacketService extends AccessibilityService {
                     findRedPacket(rootNode);
                 }
 
-                System.out.println("className==================="+className);
+                System.out.println("AccessibilityEvent-----------------className===="+className);
 
                 //判断是否是显示‘开’的那个红包界面
 //                if (LUCKEY_MONEY_RECEIVER.equals(className)) {
-                if (className.contains(LUCKEY_MONEY_RECEIVER)) {
+                if (className.contains(LUCKEY_MONEY_RECEIVER) && !className.equals(LUCKEY_MONEY_SEND)) {
                     AccessibilityNodeInfo rootNode = getRootInActiveWindow();
                     //开始抢红包
                     openRedPacket(rootNode);

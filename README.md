@@ -16,3 +16,7 @@
 加上NotificationListenerService服务，另一种方式监听消息
 
 解决ticwatch不兼容问题。
+
+添加notificationService逻辑双保险保证抓取通知成功率
+
+注册版本，将主界面试用提示隐藏掉

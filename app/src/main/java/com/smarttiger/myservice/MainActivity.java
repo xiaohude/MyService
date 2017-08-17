@@ -2,6 +2,7 @@ package com.smarttiger.myservice;
 
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     final static String TAG = MainActivity.class.getSimpleName();
 
     private Context mContext;
+    private View mServiceLayout;
     private SwitchButton mSwitchButton;
     private TextView mTimeText;
     private View mIMEILayout;
@@ -44,6 +46,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView(){
+        mServiceLayout = findViewById(R.id.service_layout);
+        mServiceLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+            }
+        });
         mSwitchButton = (SwitchButton) findViewById(R.id.switch_button);
         mSwitchButton.setOnClickListener(new View.OnClickListener() {
             @Override
