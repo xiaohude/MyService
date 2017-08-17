@@ -14,7 +14,7 @@ import com.smarttiger.utils.TimeUtil;
 
 public class ExpirationUtil {
 
-    public static String expirationTime = "2017/08/20 12:00" ;
+    public static String expirationTime = "2017/08/31 12:00";
     private static String IMEI = "867695020006101";
 
     public static boolean isExceedTime (Context context) {
@@ -36,7 +36,7 @@ public class ExpirationUtil {
 
     }
 
-    private static boolean isRightIMEI (Context context) {
+    public static boolean isRightIMEI (Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String imei = telephonyManager.getDeviceId();
         return  IMEI.equals(imei);

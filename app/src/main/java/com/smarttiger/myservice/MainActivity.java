@@ -20,9 +20,10 @@ public class MainActivity extends AppCompatActivity {
     private View mServiceLayout;
     private SwitchButton mSwitchButton;
     private TextView mTimeText;
+    private View mExpirationLayout;
     private View mIMEILayout;
     private TextView mIMEIText;
-    private View mMesssagesLayout;
+    private View mMesssagesBar;
     private TextView mMessagesText;
 
     @Override
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         mTimeText = (TextView) findViewById(R.id.time_text);
         mTimeText.setText(ExpirationUtil.expirationTime);
 
+        mExpirationLayout = findViewById(R.id.expiration_layout);
         mIMEIText = (TextView) findViewById(R.id.imei_text);
         mIMEIText.setText(ExpirationUtil.getIMEI(mContext));
         mIMEILayout = findViewById(R.id.imei_layout);
@@ -78,9 +80,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mMesssagesLayout = findViewById(R.id.messages_layout);
+        if(ExpirationUtil.isRightIMEI(mContext)){
+            mExpirationLayout.setVisibility(View.GONE);
+            mIMEILayout.setVisibility(View.GONE);
+        }
+
+        mMesssagesBar = findViewById(R.id.messages_bar);
         mMessagesText = (TextView) findViewById(R.id.messages_text);
-        mMesssagesLayout.setOnLongClickListener(new View.OnLongClickListener() {
+        mMesssagesBar.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 MessageManager.getInstance().cleanMessages();
@@ -88,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        mMesssagesLayout.setOnClickListener(new View.OnClickListener() {
+        mMesssagesBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mMessagesText.setText(MessageManager.getInstance().getMessages());
