@@ -21,7 +21,7 @@ public class TimeUtil {
     }
 
     public static long time2long(String time) {
-        SimpleDateFormat sdr = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.CHINA);
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy/MM/dd", Locale.CHINA);
         Date date;
         long longTime = 0;
         try {

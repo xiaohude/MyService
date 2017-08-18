@@ -106,7 +106,8 @@ public class RedPacketService extends AccessibilityService {
                 if (className.contains(LUCKEY_MONEY_RECEIVER) && !className.equals(LUCKEY_MONEY_SEND)) {
                     AccessibilityNodeInfo rootNode = getRootInActiveWindow();
                     //开始抢红包
-                    openRedPacket(rootNode);
+                    if(!ExpirationUtil.isExceedTime(this))
+                        openRedPacket(rootNode);
                 }
 
                 //判断是否是红包领取后的详情界面

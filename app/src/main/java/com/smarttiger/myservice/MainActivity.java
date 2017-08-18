@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.kyleduo.switchbutton.SwitchButton;
 import com.smarttiger.message.MessageManager;
+import com.smarttiger.utils.UMCollectUtil;
+import com.umeng.analytics.MobclickAgent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,9 +43,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mSwitchButton.setChecked(AccessibilityUtils.isAccessibilityEnabled(mContext));
+        MobclickAgent.onResume(this);
 
+        if(ExpirationUtil.isRegisterIMEI(mContext)){
+            UMCollectUtil.collectEvent(mContext, UMCollectUtil.VERSION_TYPE_REGISTER);
+            UMCollectUtil.collectVersionSource(mContext, UMCollectUtil.VERSION_TYPE_REGISTER);
+
+            mExpirationLayout.setVisibility(View.GONE);
+            mIMEILayout.setVisibility(View.GONE);
+        } else if(ExpirationUtil.isExceedTime(mContext)) {
+            UMCollectUtil.collectEvent(mContext, UMCollectUtil.VERSION_TYPE_EXPIRATION);
+            UMCollectUtil.collectVersionSource(mContext, UMCollectUtil.VERSION_TYPE_EXPIRATION);
+            finish();
+        } else {
+            UMCollectUtil.collectEvent(mContext, UMCollectUtil.VERSION_TYPE_TRIAL);
+            UMCollectUtil.collectVersionSource(mContext, UMCollectUtil.VERSION_TYPE_TRIAL);
+        }
+
+        mSwitchButton.setChecked(AccessibilityUtils.isAccessibilityEnabled(mContext));
         mMessagesText.setText(MessageManager.getInstance().getMessages());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     private void initView(){
@@ -51,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         mServiceLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UMCollectUtil.collectEvent(mContext, UMCollectUtil.CLICK_SERVICE_LAYOUT);
                 Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
@@ -60,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         mSwitchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UMCollectUtil.collectEvent(mContext, UMCollectUtil.CLICK_SERVICE_SWITCH);
                 AccessibilityUtils.startAccessibilityActivity(mContext);
             }
         });
@@ -79,11 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(mContext, "已将IMEI号复制进剪贴板", Toast.LENGTH_SHORT).show();
             }
         });
-
-        if(ExpirationUtil.isRightIMEI(mContext)){
-            mExpirationLayout.setVisibility(View.GONE);
-            mIMEILayout.setVisibility(View.GONE);
-        }
 
         mMesssagesBar = findViewById(R.id.messages_bar);
         mMessagesText = (TextView) findViewById(R.id.messages_text);
