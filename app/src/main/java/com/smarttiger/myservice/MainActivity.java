@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.kyleduo.switchbutton.SwitchButton;
 import com.smarttiger.message.MessageManager;
+import com.smarttiger.utils.SettingsUtil;
 import com.smarttiger.utils.UMCollectUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private View mExpirationLayout;
     private View mIMEILayout;
     private TextView mIMEIText;
+    private TextView mAmountText;
     private View mMesssagesBar;
     private TextView mMessagesText;
 
@@ -62,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
         mSwitchButton.setChecked(AccessibilityUtils.isAccessibilityEnabled(mContext));
         mMessagesText.setText(MessageManager.getInstance().getMessages());
+
+        mAmountText.setText("" + SettingsUtil.getRedPackageAmount(mContext));
     }
 
     @Override
@@ -105,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(mContext, "已将IMEI号复制进剪贴板", Toast.LENGTH_SHORT).show();
             }
         });
+
+        mAmountText = (TextView) findViewById(R.id.amount_text);
 
         mMesssagesBar = findViewById(R.id.messages_bar);
         mMessagesText = (TextView) findViewById(R.id.messages_text);

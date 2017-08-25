@@ -105,6 +105,33 @@
         </LinearLayout>
     </FrameLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="12dp"
+        android:gravity="start|center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总共为您抢到的金额为:  "
+            android:textColor="#444444"
+            android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/amount_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#757575"
+            android:textSize="12sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 元"
+            android:textColor="#757575"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/messages_bar"
         android:layout_width="match_parent"

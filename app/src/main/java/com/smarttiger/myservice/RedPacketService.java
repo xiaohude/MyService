@@ -14,6 +14,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Toast;
 
 import com.smarttiger.message.MessageManager;
+import com.smarttiger.utils.SettingsUtil;
 
 import java.util.List;
 
@@ -54,6 +55,9 @@ public class RedPacketService extends AccessibilityService {
      * KeyguardManager.KeyguardLock对象
      */
     private KeyguardManager.KeyguardLock keyguardLock;
+
+    //红包详情界面Text内容
+    private String detailText = "";
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -114,6 +118,12 @@ public class RedPacketService extends AccessibilityService {
                 if (isOpenDetail && LUCKEY_MONEY_DETAIL.equals(className)) {
 
                     isOpenDetail = false;
+
+                    //寻找界面上的红包金额
+                    detailText = "";
+                    AccessibilityNodeInfo rootNode = getRootInActiveWindow();
+                    getRedPacketSum(rootNode);
+
                     //返回桌面
                     back2Home();
                     //如果之前是锁着屏幕的则重新锁回去
@@ -136,6 +146,24 @@ public class RedPacketService extends AccessibilityService {
                 isOpenDetail = true;
             }
             openRedPacket(node);
+        }
+    }
+
+    /**
+     * 获取抢到金额
+     */
+    private void getRedPacketSum(AccessibilityNodeInfo rootNode) {
+        for (int i = 0; i < rootNode.getChildCount(); i++) {
+            AccessibilityNodeInfo node = rootNode.getChild(i);
+            if ("android.widget.TextView".equals(node.getClassName())) {
+                if(node.getText().toString().contains("元")) {
+                    double redPackageNum = Double.parseDouble(detailText);
+                    SettingsUtil.addRedPackageAmount(this, redPackageNum);
+                    break;
+                }
+                detailText = node.getText().toString();
+            }
+            getRedPacketSum(node);
         }
     }
 
