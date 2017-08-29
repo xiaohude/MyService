@@ -43,3 +43,6 @@ local.properties
 
 # Log Files
 *.log
+
+
+/IMEI表.txt

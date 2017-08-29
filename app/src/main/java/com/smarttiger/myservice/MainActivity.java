@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.kyleduo.switchbutton.SwitchButton;
 import com.smarttiger.message.MessageManager;
+import com.smarttiger.utils.ObjectStore;
 import com.smarttiger.utils.SettingsUtil;
 import com.smarttiger.utils.UMCollectUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = this;
+        ObjectStore.setContext(this);
 
         if(ExpirationUtil.isExceedTime(mContext))
             finish();

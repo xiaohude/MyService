@@ -20,6 +20,7 @@ public class UMCollectUtil {
     public static final String VERSION_TYPE_REGISTER = "version_type_register";
     public static final String VERSION_TYPE_EXPIRATION = "version_type_expiration";
     private static final String VERSION_SOURCE = "version_source";
+    private static final String RED_CATCH_AMOUNT = "red_catch_amount";
 
     public static void collectEvent(Context context, String eventId){
         MobclickAgent.onEvent(context, eventId);
@@ -31,6 +32,17 @@ public class UMCollectUtil {
         map_value.put("sourceID", id);
         map_value.put("versionType", versionType);
         MobclickAgent.onEvent(context, VERSION_SOURCE, map_value);
+    }
+
+    public static void collectCatchRedPackage(double redNum) {
+        String imei = ExpirationUtil.getIMEI(ObjectStore.getContext()).substring(2,6) + ExpirationUtil.IMEI.substring(8, 14);
+
+        for(int i = 0; i < redNum; i++){
+            Map<String, String> map_value = new HashMap<>();
+            map_value.put("currentID", imei);
+            MobclickAgent.onEvent(ObjectStore.getContext(), RED_CATCH_AMOUNT, map_value);
+        }
+
     }
 
 }

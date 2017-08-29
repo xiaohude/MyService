@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.smarttiger.message.MessageManager;
 import com.smarttiger.utils.SettingsUtil;
+import com.smarttiger.utils.UMCollectUtil;
 
 import java.util.List;
 
@@ -159,6 +160,7 @@ public class RedPacketService extends AccessibilityService {
                 if(node.getText().toString().contains("元")) {
                     double redPackageNum = Double.parseDouble(detailText);
                     SettingsUtil.addRedPackageAmount(this, redPackageNum);
+                    UMCollectUtil.collectCatchRedPackage(redPackageNum);
                     break;
                 }
                 detailText = node.getText().toString();
