@@ -3,6 +3,8 @@ package com.smarttiger.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by zhuxh on 2017/8/18.
  */
@@ -28,8 +30,9 @@ public class SettingsUtil {
         SharedPreferences preferences = context.getSharedPreferences("user",Context.MODE_PRIVATE);
         double amount = getRedPackageAmount(context);
         amount = amount + redPackageNum;
+        DecimalFormat df = new DecimalFormat("#####0.00");
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(RED_PACKAGE_AMOUNT, ""+amount);
+        editor.putString(RED_PACKAGE_AMOUNT, df.format(amount));
         editor.commit();
     }
 

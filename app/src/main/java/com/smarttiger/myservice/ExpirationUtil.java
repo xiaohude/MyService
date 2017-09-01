@@ -15,7 +15,7 @@ import com.smarttiger.utils.TimeUtil;
 
 public class ExpirationUtil {
 
-    public static String expirationTime = "2017/08/31";
+    public static String expirationTime = "2017/09/10";
     public static String IMEI = "867695020006101";
 
     public static boolean isExceedTime (Context context) {
